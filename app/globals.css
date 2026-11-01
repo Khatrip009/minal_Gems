@@ -1,26 +1,116 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
+@theme {
+  /* ── Surfaces ─────────────────────────── */
+  --color-surface:        #ffffff;
+  --color-surface-muted:  #f8fafc;
+  --color-surface-sunken: #f1f5f9;
+
+  /* ── Borders ──────────────────────────── */
+  --color-border:        #e2e8f0;
+  --color-border-strong: #cbd5e1;
+
+  /* ── Text ─────────────────────────────── */
+  --color-fg:        #0f172a;
+  --color-fg-muted:  #64748b;
+  --color-fg-subtle: #94a3b8;
+
+  /* ── Semantic ─────────────────────────── */
+  --color-success:    #059669; --color-success-bg: #ecfdf5;
+  --color-warning:    #d97706; --color-warning-bg: #fffbeb;
+  --color-danger:     #dc2626; --color-danger-bg:  #fef2f2;
+  --color-info:       #2563eb; --color-info-bg:    #eff6ff;
+
+  /* ── Motion ───────────────────────────── */
+  --duration-fast: 120ms;
+  --duration-base: 200ms;
+  --duration-slow: 320ms;
+  --ease-premium:  cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+/* Numeric rule from plan §2 */
+.tabular,
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f8fafc;
+  --foreground: #0f172a;
+  --sidebar-width: 16rem;
+  --topbar-height: 3.5rem;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+* { border-color: rgb(226 232 240); }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+html, body { height: 100%; }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Tabular numbers for monetary/weight columns */
+.tabular, table td.numeric, table th.numeric {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum';
+}
+
+/* Scrollbars */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-thumb { background: rgb(203 213 225); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: rgb(148 163 184); }
+
+/* ---- Accessibility: focus ring ---- */
+/* Global default: visible focus ring for keyboard users (buttons, links, etc.) */
+:focus-visible {
+  outline: 2px solid var(--color-brand-500);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+/* Inputs/selects/textareas: replace outline with the polished brand ring */
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: none;
+  border-color: var(--color-brand-500);
+  box-shadow: 0 0 0 2px var(--color-brand-100);
+}
+
+/* Component utilities (Tailwind v4 requires @layer for @apply) */
+@layer components {
+  .card {
+    @apply rounded-xl border border-slate-200 bg-white;
+  }
+  .section-title {
+    @apply text-sm font-semibold text-slate-900;
+  }
+}
+
+
+@media print {
+  @page {
+    size: A4;
+    margin: 12mm;
+  }
+  body {
+    background: white !important;
+  }
+  table,
+  .avoid-break {
+    page-break-inside: avoid;
+  }
+  /* Report tables: allow long tables to flow across pages, but keep thead repeating */
+  thead {
+    display: table-header-group;
+  }
+  tr {
+    page-break-inside: avoid;
+  }
+  /* Remove screen-only colors that waste ink */
+  .print\:bg-white {
+    background: white;
+  }
 }
