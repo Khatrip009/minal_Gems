@@ -9,11 +9,11 @@
 import { createClient } from '@/lib/supabase/client'
 
 const STORAGE_BASE =
-  process.env.NEXT_PUBLIC_STORAGE_URL ?? 'http://localhost:4900'
+  process.env.NEXT_STORAGE_URL ?? 'http://localhost:4900'
 const UPLOAD_PATH =
-  process.env.NEXT_PUBLIC_STORAGE_UPLOAD_PATH ?? '/api/v1/upload'
+  process.env.NEXT_STORAGE_UPLOAD_PATH ?? '/api/v1/upload'
 const DELETE_PATH =
-  process.env.NEXT_PUBLIC_STORAGE_DELETE_PATH ?? '/api/v1/delete'
+  process.env.NEXT_STORAGE_DELETE_PATH ?? '/api/v1/delete'
 
 type UploadResponse = {
   url?: string
